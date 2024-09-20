@@ -7,6 +7,13 @@ param(
 $script:PROFILEDirectory = $PSScriptRoot
 $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
 
+<#$RYVars = []
+
+class RYVars {
+
+}
+#>
+
 if ($minprofile) {
     exit
 } 
