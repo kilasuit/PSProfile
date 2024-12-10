@@ -1,6 +1,7 @@
 If ($PSVersionTable.PSVersion.Patch -gt 0) { $ver = $PSVersionTable.PSVersion.ToString() }
 elseif ($PSVersionTable.PSVersion.PreReleaseLabel -match 'Daily') { $ver = '7 Daily' }
-else ($PSVersionTable.PSVersion.PreReleaseLabel -match 'Preview') { $ver = "7 $($PSVersionTable.PSVersion.PreReleaseLabel[0..-1])".Replace(' ','').ToUpper() }
+elseif ($PSVersionTable.PSVersion.PreReleaseLabel -match 'Preview') { $ver = $($PSVersionTable.PSVersion.ToString().replace('0-preview', 'p')) }
+elseif ($PSVersionTable.PSVersion.PreReleaseLabel -match 'rc') { $ver = "$($PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -join '.') RC" }
 else { $ver = $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -join '.' }
 
 
