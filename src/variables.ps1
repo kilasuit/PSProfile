@@ -3,14 +3,11 @@ param(
     [switch]
     $minprofile
 )
-$script:sessionStart = (Get-Date -Format yy-MMM-dd-HH:mm:ss)
+$script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
 
 $script:PROFILEDirectory = $PSScriptRoot
 $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
-
-
-
 
 function Set-WindowTitle {
     [CmdletBinding()]
@@ -37,6 +34,7 @@ if ($isWindows) {
         $admin = $true
     }
 }
+. $PSScriptRoot\hostui.ps1
 
 if ($minprofile) {
     exit
@@ -75,12 +73,6 @@ $ScriptAnalyserRules = @{
 # $Standard_PSM1 = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\StandardPSM1.txt"
 # $License_MD_Content = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\Sample_LICENSE.MD"
 # $License_MD_Content = $License_MD_Content.replace('Ryan Yates', $psd1.Author)
-
-. $PSScriptRoot\hostui.ps1
-
-
-
-
 
 # if ($PSVersionTable.PSEdition -match 'Desktop' -or $isWindows) {
 #     $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))

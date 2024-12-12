@@ -49,7 +49,7 @@ function global:prompt {
     }
     else {
         $history = [PSCustomObject]@{
-            ID       = 0
+            ID       = 1
             Duration = '0 ms'
         }
     }
