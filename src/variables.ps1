@@ -3,20 +3,44 @@ param(
     [switch]
     $minprofile
 )
+$script:sessionStart = (Get-Date -Format yy-MMM-dd-HH:mm:ss)
+
 
 $script:PROFILEDirectory = $PSScriptRoot
 $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
 
-<#$RYVars = []
 
-class RYVars {
 
+
+function Set-WindowTitle {
+    [CmdletBinding()]
+    [Alias('shwt')]
+    param (
+        [Parameter()]
+        [string]
+        $WindowTitle
+    )
+    $host.UI.RawUI.WindowTitle = $WindowTitle
 }
-#>
+
+#Set-WindowTitle -WindowTitle $windowTitle
+if ($PSVersionTable.PSVersion.Major -lt 6) {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', 'Not Available in v6 or lower unless PowerShellGet is imported', Scope = 'Scriptblock')]
+    $isWindows = $true
+}
+
+if ($isWindows) {
+    $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+} else {
+    $uid = id -u
+    if ($uid -eq 0) {
+        $admin = $true
+    }
+}
 
 if ($minprofile) {
     exit
-} 
+}
 
 $psd1 = @{
     Path                 = '' #Please Leave blank as it is automatically populated by the function; # TODO fit it in vscode setup
@@ -35,7 +59,7 @@ $psd1 = @{
 }
 
 #region ScriptAnalyser Specific Items
-$SARules = @{
+$ScriptAnalyserRules = @{
     Severity     = 'Warning'
     IncludeRules = @('PSAvoidUsingCmdletAliases',
         'PSAvoidUsingPositionalParameters',
@@ -52,39 +76,25 @@ $SARules = @{
 # $License_MD_Content = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\Sample_LICENSE.MD"
 # $License_MD_Content = $License_MD_Content.replace('Ryan Yates', $psd1.Author)
 
-
-If ($PSVersionTable.PSVersion.Patch -gt 0) { $ver = $PSVersionTable.PSVersion.ToString() }
-elseif ($PSVersionTable.PSVersion.PreReleaseLabel -match 'Daily') { $ver = '7 Daily' }
-elseif ($PSVersionTable.PSVersion.PreReleaseLabel -match 'Preview') { $ver = "7 $($PSVersionTable.PSVersion.PreReleaseLabel)" }
-else { $ver = $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -join '.' }
-if ((Get-Process -Id $PID).Path -match '\\WindowsApps\\Microsoft') { $ver = $ver + ' MSIX' }
-if ((Get-Process -Id $PID).Path -match '\\PowerShell\\7') { $ver = $ver + ' MSI' }
-if (((Get-Process -Id $pid).Parent.Parent.ProcessName -eq 'WindowsTerminal') -or (! $null -eq $env:wt_session) ) { $ver = $ver + ' WT' ; $wt = $true }
+. $PSScriptRoot\hostui.ps1
 
 
-if ($isWindows) {
-    $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-    $WindowTitle = $ver + ' - ' + $pid
-    $host.UI.RawUI.WindowTitle = $WindowTitle
-    if ($admin -eq $true) {
-        # Admin-mark in WindowTitle
-        $Host.UI.RawUI.WindowTitle = "[Admin] " + $WindowTitle
-    }
-}
 
-if ($PSVersionTable.PSEdition -match 'Desktop' -or $isWindows) {
-    $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-    if ($admin -eq $true) {
 
-        # Admin-mark on prompt
-        Write-Host "[" -NoNewline -ForegroundColor DarkGray
-        Write-Host "Admin" -NoNewline -ForegroundColor Red
-        Write-Host "] " -NoNewline -ForegroundColor DarkGray
-        $Host.UI.RawUI.WindowTitle = "[Admin] " + $WindowTitle + ' - ' + (Get-Date -Format HH:mm:ss) + ' - ' + $RunningAction
-    }
-    else {
-        $host.UI.RawUI.WindowTitle = $WindowTitle + ' - ' + (Get-Date -Format HH:mm:ss) + ' - ' + $RunningAction
-    }
-}
+
+# if ($PSVersionTable.PSEdition -match 'Desktop' -or $isWindows) {
+#     $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+#     if ($admin -eq $true) {
+
+#         # Admin-mark on prompt
+#         Write-Host "[" -NoNewline -ForegroundColor DarkGray
+#         Write-Host "Admin" -NoNewline -ForegroundColor Red
+#         Write-Host "] " -NoNewline -ForegroundColor DarkGray
+#         $Host.UI.RawUI.WindowTitle = "[Admin] " + $WindowTitle + ' - ' + $ # + ' - ' + $RunningAction
+#     }
+#     else {
+#         $host.UI.RawUI.WindowTitle = $WindowTitle + ' - ' + (Get-Date -Format HH:mm:ss) + ' - ' + $RunningAction
+#     }
+# }
 
 #endregion Create Variables

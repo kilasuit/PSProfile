@@ -7,5 +7,11 @@ else { $ver = $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -
 
 if ((Get-Process -Id $PID).Path -match '\\WindowsApps\\Microsoft') { $ver = $ver + ' MSIX' }
 elseif ((Get-Process -Id $PID).Path -match '\\PowerShell\\7') { $ver = $ver + ' MSI' }
-elseif (((Get-Process -Id $pid).Parent.Parent.ProcessName -eq 'WindowsTerminal') -or (! $null -eq $env:wt_session) ) { $ver = $ver + ' WT' ; $wt = $true }
 else {$ver = $ver + 'ZIP'}
+
+if (((Get-Process -Id $pid).Parent.Parent.ProcessName -eq 'WindowsTerminal') -or (! $null -eq $env:wt_session) ) { $ver = $ver + ' WT' ; $wt = $true }
+
+$windowTitle = $ver + ' - ' + $pid + ' - ' + $sessionStart
+if ($admin) {$windowTitle = "[Admin] " + $WindowTitle}
+
+Set-WindowTitle -WindowTitle $windowTitle
