@@ -20,3 +20,6 @@
 # }
 
 #endregion
+
+Import-Module CompletionPredictor 
+Import-Module Microsoft.WinGet.CommandNotFound

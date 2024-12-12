@@ -1,54 +1,57 @@
 #region Create Variables
 . $PSScriptroot\variables.ps1
+
 #endregion Create Variables
 
 #region Create PSDrives
-if ($PSVersionTable.PSVersion.Major -lt 6) { 
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', 'Not Available in v6 or lower unless PowerShellGet is imported', Scope = 'Scriptblock')]
-    $isWindows = $true 
-}
-if ($isWindows) {
-    #New-PSDrive -Name Desktop -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Desktop | Out-Null
-    New-PSDrive -Name OneDrive -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Onedrive\ | Out-Null
-    New-PSDrive -Name Code -PSProvider FileSystem -Root C:\code\ | Out-Null
-    New-PSDrive C-Tmp -PSProvider FileSystem -Root C:\Tmp\ | Out-Null
-    New-PSDrive C-Temp -PSProvider FileSystem -Root c:\Temp\ | Out-Null
-}
-if ($IsLinux) {
-    New-PSDrive Code -PSProvider FileSystem -Root '/mnt/c/Code/' | Out-Null
-    New-PSDrive C-Tmp -PSProvider FileSystem -Root '/mnt/c/Tmp/' | Out-Null
-    New-PSDrive C-Temp -PSProvider FileSystem -Root '/mnt/c/Temp/' | Out-Null
-    $Env:PSModulePath = $Env:PSModulePath + ':/mnt/c/Program Files/WindowsPowerShell/Modules/'
-}
+# This block has been moved
+<# if ($isWindows) {
+#     #New-PSDrive -Name Desktop -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Desktop | Out-Null
+#     New-PSDrive -Name OneDrive -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Onedrive\ | Out-Null
+#     New-PSDrive -Name Code -PSProvider FileSystem -Root C:\code\ | Out-Null
+#     New-PSDrive C-Tmp -PSProvider FileSystem -Root C:\Tmp\ | Out-Null
+#     New-PSDrive C-Temp -PSProvider FileSystem -Root c:\Temp\ | Out-Null
+# }
+# if ($IsLinux) {
+#     New-PSDrive Code -PSProvider FileSystem -Root '/mnt/c/Code/' | Out-Null
+#     New-PSDrive C-Tmp -PSProvider FileSystem -Root '/mnt/c/Tmp/' | Out-Null
+#     New-PSDrive C-Temp -PSProvider FileSystem -Root '/mnt/c/Temp/' | Out-Null
+#     $Env:PSModulePath = $Env:PSModulePath + ':/mnt/c/Program Files/WindowsPowerShell/Modules/'
+# }
 
-New-PSDrive -Name Private -PSProvider FileSystem -Root 'Code:\Mine\pri\' | Out-Null
-New-PSDrive -Name Public -PSProvider FileSystem -Root 'Code:\Mine\pub\' | Out-Null
+# New-PSDrive -Name Private -PSProvider FileSystem -Root 'Code:\Mine\pri\' | Out-Null
+# New-PSDrive -Name Public -PSProvider FileSystem -Root 'Code:\Mine\pub\' | Out-Null
 
-New-PSDrive -Name PrivateGitHub -PSProvider FileSystem -Root 'Code:\Mine\pri\Github\' | Out-Null
-New-PSDrive -Name PublicGitHub -PSProvider FileSystem -Root 'Code:\Mine\pub\Github\' | Out-Null
+# New-PSDrive -Name PrivateGitHub -PSProvider FileSystem -Root 'Code:\Mine\pri\Github\' | Out-Null
+# New-PSDrive -Name PublicGitHub -PSProvider FileSystem -Root 'Code:\Mine\pub\Github\' | Out-Null
 
-New-PSDrive -Name Scripts -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Scripts' | Out-Null
-New-PSDrive -Name Scripts-WIP -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Scripts-WIP' | Out-Null
-New-PSDrive -Name Modules-WIP -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Modules-WIP' | Out-Null
-New-PSDrive -Name Blog -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\blogsite' | Out-Null
-New-PSDrive -Name Mhasl -PSProvider FileSystem -Root 'PrivateGitHub:\mhaslme\website' | Out-Null
-New-PSDrive -Name Profile -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\PSProfile' | Out-Null
-
+# New-PSDrive -Name Scripts -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Scripts' | Out-Null
+# New-PSDrive -Name Scripts-WIP -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Scripts-WIP' | Out-Null
+# New-PSDrive -Name Modules-WIP -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\Modules-WIP' | Out-Null
+# New-PSDrive -Name Blog -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\blogsite' | Out-Null
+# New-PSDrive -Name Mhasl -PSProvider FileSystem -Root 'PrivateGitHub:\mhaslme\website' | Out-Null
+# New-PSDrive -Name Profile -PSProvider FileSystem -Root 'PrivateGitHub:\kilasuit\PSProfile' | Out-Null
+#>
+. $PSScriptRoot\PSDrives.ps1
 #endregion
 
 #region modules
-Import-Module PrivateGitHub:\kilasuit\Modules-WIP\MyFunctions\MyFunctions.psd1 -DisableNameChecking
+Import-Module PriGH:\kilasuit\Modules-WIP\MyFunctions\MyFunctions.psd1 -DisableNameChecking
 
 Import-Module PowerShellHumanizer
 If ($iswindows) { Import-Module BetterCredentials -Prefix b }
 (Get-Module Posh-git -ListAvailable | Where-Object { $_.Version.Major -lt 1 }) | Import-Module
-$GitPromptSettings.EnableWindowTitle = $null
+If (Get-Module posh-git) { $GitPromptSettings.EnableWindowTitle = $null}
 
 #$CheckGit = Request-YesOrNo -message 'Want to Check GitHub Status?'
 
 #If ($CheckGit -eq $true) { Check-GithubRepoStatus }
 #>
 #endregion
+
+#region completions
+Get-ChildItem $PSScriptRoot\completions -Recurse -File | ForEach-Object { . $_.FullName }
+#endregion completions
 
 #region ISE Specific items
 if ($host.Name -eq 'Windows PowerShell ISE Host') { . $PSScriptroot\ise_profile.ps1 }
@@ -58,10 +61,14 @@ if ($host.Name -eq 'Windows PowerShell ISE Host') { . $PSScriptroot\ise_profile.
 if ($host.Name -match 'Visual Studio Code Host') { . $PSScriptroot\code_profile.ps1 }
 #endregion
 
+#region vscode Specific items
+if ($host.Name -match 'Visual Studio Code Host') { . $PSScriptroot\code_profile.ps1 }
+#endregion
+
 
 #>
 
-#region preprompt 
+#region preprompt
 
 # function global:preprompt {
 #     [CmdletBinding()]
@@ -103,8 +110,10 @@ if ($host.Name -match 'Visual Studio Code Host') { . $PSScriptroot\code_profile.
 
 Remove-PSReadLineKeyHandler Ctrl+Enter
 
-if ($isWindows -and ($host.Name -match 'ConsoleHost') -and ($wt)) { Set-Location C:\ }
-
+if ($isWindows -and ($host.Name -match 'ConsoleHost') -and ($wt)) {
+    # Set-Location C:\ # Have commented this out as this breaks the Open In Terminal right click Explorer option
+}
+#
 
 
 if ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -gt 2) {

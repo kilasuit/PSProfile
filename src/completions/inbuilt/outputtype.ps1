@@ -1,4 +1,5 @@
-## As per this comment from MartinGC94
+## As per this comment from MartinGC94 - https://github.com/PowerShell/PowerShell/issues/7050#issuecomment-1012284771
+## TODO - Convert this to Register-ArgumentCompleter syntax
 
 function TabExpansion2 {
     [CmdletBinding(DefaultParameterSetName = 'ScriptInputSet')]
