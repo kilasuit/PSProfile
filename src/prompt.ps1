@@ -43,7 +43,7 @@ function global:prompt {
             else {
                 # This super long replace is only because in the PowerShell Humanizer Module (as well as in Humanizer .Net library) they don't yet shorten further
                 # I have some on going work that I am doing for this in Humanizer & may even fork it and publish it myself
-                $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime).Humanize(3).Replace('days', 'd').Replace('hours', 'h').Replace('minutes', 'm').Replace('milliseconds', 'ms').Replace('seconds', 's')
+                $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime).Humanize(3).Replace('days', 'd').Replace('hours', 'h').Replace('hour', 'h').Replace('minutes', 'm').Replace('minute', 'm').Replace('milliseconds', 'ms').Replace('seconds', 's').Replace('second', 's')
             }
         }
     }
