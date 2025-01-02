@@ -7,6 +7,7 @@ else { $ver = $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -
 
 if ((Get-Process -Id $PID).Path -match '\\WindowsApps\\Microsoft') { $ver = $ver + ' MSIX' }
 elseif ((Get-Process -Id $PID).Path -match '\\PowerShell\\7') { $ver = $ver + ' MSI' }
+elseif ($PSEdition -eq 'Desktop') { $ver = $ver }
 else {$ver = $ver + 'ZIP'}
 
 if (((Get-Process -Id $pid).Parent.Parent.ProcessName -eq 'WindowsTerminal') -or (! $null -eq $env:wt_session) ) { $ver = $ver + ' WT' ; $wt = $true }

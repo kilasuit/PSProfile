@@ -11,3 +11,10 @@ function invoke-minprofile {
     param()
     . "$script:PROFILEDirectory\min-profile.ps1"
 }
+
+function invoke-profile {
+    [CmdletBinding()]
+    [Alias('imyp')]
+    param()
+    . "$script:PROFILEDirectory\profile.ps1"
+}

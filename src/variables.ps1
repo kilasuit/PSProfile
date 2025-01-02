@@ -5,9 +5,11 @@ param(
 )
 $script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
-
 $script:PROFILEDirectory = $PSScriptRoot
+$script:PROFILEGitDirectory = "$PSScriptRoot\..\"
+
 $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
+$PROFILE | Add-Member -Name  MyProfileGitDirectory -MemberType NoteProperty -Value $script:PROFILEGitDirectory
 
 function Set-WindowTitle {
     [CmdletBinding()]
@@ -40,6 +42,9 @@ if ($minprofile) {
     exit
 }
 
+#region def
+. "$PSScriptRoot\vars\DefaultParams.ps1"
+#endregion
 $psd1 = @{
     Path                 = '' #Please Leave blank as it is automatically populated by the function; # TODO fit it in vscode setup
     Author               = 'Ryan Yates';
