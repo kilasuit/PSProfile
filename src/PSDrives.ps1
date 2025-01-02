@@ -1,7 +1,7 @@
 if ($isWindows) {
     #New-PSDrive -Name Desktop -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Desktop | Out-Null
     New-PSDrive -Name OneDrive -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Onedrive\ | Out-Null
-    New-PSDrive -Name OneDriveRK -PSProvider FileSystem -Root "$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Kilasuit.org\" | Out-Null
+    New-PSDrive -Name OneDriveRK -PSProvider FileSystem -Root "$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Kilasuit.org\" -ErrorAction SilentlyContinue | Out-Null
     New-PSDrive -Name Code -PSProvider FileSystem -Root C:\code\ | Out-Null
     New-PSDrive C-Tmp -PSProvider FileSystem -Root C:\Tmp\ | Out-Null
     New-PSDrive C-Temp -PSProvider FileSystem -Root c:\Temp\ | Out-Null
@@ -19,7 +19,7 @@ New-PSDrive -Name Private -PSProvider FileSystem -Root 'Code:\Mine\pri\' | Out-N
 New-PSDrive -Name Public -PSProvider FileSystem -Root 'Code:\Mine\pub\' | Out-Null
 
 New-PSDrive -Name PriGH -PSProvider FileSystem -Root 'Code:\Mine\pri\Github\' | Out-Null
-New-PSDrive -Name PublicGitHub -PSProvider FileSystem -Root 'Code:\Mine\pub\Github\' | Out-Null
+New-PSDrive -Name PubGH -PSProvider FileSystem -Root 'Code:\Mine\pub\Github\' | Out-Null
 
 New-PSDrive -Name Scripts -PSProvider FileSystem -Root 'PriGH:\kilasuit\Scripts' | Out-Null
 New-PSDrive -Name ScriptsWIP -PSProvider FileSystem -Root 'PriGH:\kilasuit\Scripts-WIP' | Out-Null
