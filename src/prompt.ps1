@@ -69,7 +69,7 @@ function global:prompt {
     Write-Host "[$($History.duration)]" -NoNewline -ForegroundColor Gray
 if ((Get-Process -Id $pid).Parent -notmatch 'Code') {
     if (-not $noGit) {
-        if (Get-Module Posh-git) { Write-VcsStatus }
+        if (Get-Module Posh-git) { Write-Host (Write-VcsStatus) -NoNewline } # This is added in this way to prevent adding the output on a newline
     }
 }
     # if ($countdown) {
