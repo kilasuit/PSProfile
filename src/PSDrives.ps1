@@ -27,3 +27,6 @@ New-PSDrive -Name ModulesWIP -PSProvider FileSystem -Root 'PriGH:\kilasuit\Modul
 New-PSDrive -Name Blog -PSProvider FileSystem -Root 'PriGH:\kilasuit\blogsite' | Out-Null
 New-PSDrive -Name Mhasl -PSProvider FileSystem -Root 'PriGH:\mhaslme\website' | Out-Null
 New-PSDrive -Name Profile -PSProvider FileSystem -Root 'PriGH:\kilasuit\PSProfile' | Out-Null
+
+
+$PSDrives = $true
