@@ -1,8 +1,12 @@
 #region Create Variables
+if (! $minprofile) {
 . $PSScriptroot\variables.ps1
+}
 #endregion Create Variables
 #region Create PSDrives
+if (-not $PSDrives) {
 . $PSScriptRoot\PSDrives.ps1
+}
 #endregionCreate PSDrives
 
 #region modules
