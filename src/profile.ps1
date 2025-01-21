@@ -15,8 +15,11 @@ Import-Module PriGH:\kilasuit\Modules-WIP\MyFunctions\MyFunctions.psd1 -DisableN
 
 Import-Module PowerShellHumanizer
 If ($iswindows) { Import-Module BetterCredentials -Prefix b }
-(Get-Module Posh-git -ListAvailable | Where-Object { $_.Version.Major -lt 1 }) | Import-Module
-If (Get-Module posh-git) { $GitPromptSettings.EnableWindowTitle = $null}
+# This was needed then seemingly not needed - I don't know why
+# (Get-Module Posh-git -ListAvailable | Where-Object { $_.Version.Major -lt 1 }) | Import-Module
+# If (Get-Module posh-git) { $GitPromptSettings.EnableWindowTitle = $null}
+# Remove-Module posh-git
+Import-Module C:\PSModules\posh-git\1.1.0\posh-git.psd1
 
 Import-Module ClassExplorer
 
@@ -96,4 +99,3 @@ if ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -
         Set-PSReadLineOption -PredictionViewStyle ListView
     }
 }
-
