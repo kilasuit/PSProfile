@@ -13,7 +13,8 @@ else {$ver = $ver + 'ZIP'}
 if (((Get-Process -Id $pid).Parent.Parent.ProcessName -eq 'WindowsTerminal') -or (! $null -eq $env:wt_session) ) { $ver = $ver + ' WT' ; $wt = $true }
 
 $windowTitle = $ver
-if ($minprofile) { $windowTitle = $windowTitle + ' MP'}
+if ($minprofile -and -not $PROFILEDirectory) { $windowTitle = $windowTitle + ' MP'}
 $windowTitle = $windowTitle + ' - ' + $pid + ' - ' + $sessionStart
 if ($admin) {$windowTitle = "[Admin] " + $WindowTitle}
 Set-WindowTitle -WindowTitle $windowTitle
+
