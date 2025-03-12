@@ -7,7 +7,7 @@ if (! $minprofile) {
 if (-not $PSDrives) {
 . $PSScriptRoot\PSDrives.ps1
 }
-#endregionCreate PSDrives
+#endregion Create PSDrives
 
 #region modules
 ## Todo move to script
@@ -99,3 +99,5 @@ if ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -
         Set-PSReadLineOption -PredictionViewStyle ListView
     }
 }
+
+Remove-Variable -Name minprofile -Scope Global -Force
