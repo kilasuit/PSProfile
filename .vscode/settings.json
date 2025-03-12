@@ -15,5 +15,8 @@
     "powershell.codeFormatting.whitespaceAfterSeparator": true,
     "[powershell]": {
         "files.trimTrailingWhitespace": true
-      }
+      },
+      "cSpell.words": [
+        "minprofile"
+      ]
 }
