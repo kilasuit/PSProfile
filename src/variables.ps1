@@ -3,14 +3,15 @@ param(
     [switch]
     $minprofile
 )
-$script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
+if ($minprofile) {
+    $script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
-$script:PROFILEDirectory = $PSScriptRoot
-$script:PROFILEGitDirectory = "$PSScriptRoot\..\"
+    $script:PROFILEDirectory = $PSScriptRoot
+    $script:PROFILEGitDirectory = "$PSScriptRoot\..\"
 
-$PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
-$PROFILE | Add-Member -Name  MyProfileGitDirectory -MemberType NoteProperty -Value $script:PROFILEGitDirectory
-
+    $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
+    $PROFILE | Add-Member -Name  MyProfileGitDirectory -MemberType NoteProperty -Value $script:PROFILEGitDirectory
+}
 function Set-WindowTitle {
     [CmdletBinding()]
     [Alias('shwt')]
@@ -31,12 +32,27 @@ if ($PSVersionTable.PSVersion.Major -lt 6) {
 if ($isWindows) {
     $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 } else {
+    # Check if running as root on Linux
+    # Thanks to jborean93 for the Linux check
+    # https://discord.com/channels/180528040881815552/447476117629304853/1316552171348688926
     $uid = id -u
     if ($uid -eq 0) {
         $admin = $true
     }
 }
-. $PSScriptRoot\hostui.ps1
+
+## Setting this to allow quick refresh of Bluetooth adapter due to an intermittent issue with mouse disconnecting
+if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
+    $bluetoothAdapter =  Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
+    function Reset-BluetoothAdapter {
+        [CmdletBinding()]
+        [Alias('rsba')]
+        param()
+        $bluetoothAdapter | disable-PnpDevice -Confirm:$false -PassThru | Enable-PnpDevice -Confirm:$false
+    }
+}
+
+. $PSScriptRoot\hostui.ps1 -minprofile:$minprofile
 
 if ($minprofile) {
     exit
@@ -95,3 +111,4 @@ $ScriptAnalyserRules = @{
 # }
 
 #endregion Create Variables
+Remove-Variable -Name minprofile -Scope Global -Force
