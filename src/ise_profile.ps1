@@ -1,8 +1,8 @@
 #region ISE Specific items
 if ($host.Name -eq 'Windows PowerShell ISE Host') {
     Import-Module ISE_Cew
-    Import-Module Modules-WIP:\ISEColorThemeCmdlets\ISEColorThemeCmdlets.psd1
-    Set-ISETheme -File PublicGitHub:\kilasuit\PowerShell_ISE_Themes\Sublime_Text_2\Sublime_Text_2.StorableColorTheme.ps1xml
+    Import-Module ModulesWIP:\Archived\ISEColorThemeCmdlets\ISEColorThemeCmdlets.psd1
+    Set-ISETheme -File PubGH:\kilasuit\PowerShell_ISE_Themes\Sublime_Text_2\Sublime_Text_2.StorableColorTheme.ps1xml
 
     $MyMenu = $psise.CurrentPowerShellTab.AddOnsMenu.Submenus.Add('ISE_Cew', $null, $null)
     $MyMenu.Submenus.Add('Save & Commit Current ISE File', { Save-CurrentISEFile }, 'Ctrl+Alt+Shift+S') | Out-Null
