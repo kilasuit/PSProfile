@@ -3,12 +3,12 @@ param(
     [switch]
     $minprofile
 )
-if ($minprofile) {
     $script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
     $script:PROFILEDirectory = $PSScriptRoot
     $script:PROFILEGitDirectory = "$PSScriptRoot\..\"
 
+if  (! $profile.MyProfileDirectory) {
     $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
     $PROFILE | Add-Member -Name  MyProfileGitDirectory -MemberType NoteProperty -Value $script:PROFILEGitDirectory
 }
