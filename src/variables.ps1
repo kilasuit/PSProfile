@@ -58,7 +58,7 @@ if ($minprofile) {
     exit
 }
 
-#region def
+#region default params
 . "$PSScriptRoot\vars\DefaultParams.ps1"
 #endregion
 $psd1 = @{
@@ -73,10 +73,21 @@ $psd1 = @{
     ReleaseNotes         = 'Initial starting release of this module';
     DefaultCommandPrefix = '';
     ModuleVersion        = '0.0.1'
-    PrivateData          = @{Name = 'Ryan Yates'; Twitter = '@ryanyates1990'; BlogUrl = [URI]'https://blog.kilasuit.org/'; UkPowerShellUserGroup = [URI]'https://powershell.org.uk' }
+    PrivateData          = @{   Name = 'Ryan Yates';
+                                Twitter = '@ryanyates1990';
+                                BlogUrl = [URI]'https://blog.kilasuit.org/';
+                                LinkedIn = [URI]'https://www.linkedin.com/in/ryanyates1990/';
+                                UkPowerShellUserGroup = [URI]'https://powershell.org.uk';
+                                BlueSky = [URI]'https://bsky.app/profile/blog.kilasuit.org/';
+                                GitHub = [URI]'https://github.com/kilasuit';
+                                Slack = 'pwshdoodUK'
+                                SlackCommunity = [URI]'https://powershell.slack.com/';
+                                Discord = 'pwshdoodUK'
+                                DiscordCommunity = [URI]'https://discord.gg/9VXQZxY';
+                            }
     FunctionsToExport    = '*'
 }
-
+#endregion default params
 #region ScriptAnalyser Specific Items
 $ScriptAnalyserRules = @{
     Severity     = 'Warning'
@@ -111,4 +122,4 @@ $ScriptAnalyserRules = @{
 # }
 
 #endregion Create Variables
-Remove-Variable -Name minprofile -Scope Global -Force
+Get-Variable minprofile -ErrorAction SilentlyContinue | Remove-Variable -Scope Global -Force -ErrorAction SilentlyContinue
