@@ -100,4 +100,4 @@ if ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -
     }
 }
 
-Remove-Variable -Name minprofile -Scope Global -Force
+
