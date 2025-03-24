@@ -1,3 +1,5 @@
+# This is for setting the HostUI properties like the WindowTitle
+# Doing so allows me to at a glance get information about what sessions are running, where they are running, which version, is it using my minprofile or full profile, when they were started & if it's running as admin
 param(
     [switch]
     $minprofile

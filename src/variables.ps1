@@ -1,14 +1,17 @@
+# In this file, we define a number of variables to be used across sessions
+# This allows us
 #region Create Variables
 param(
     [switch]
     $minprofile
 )
-    $script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
-    $script:PROFILEDirectory = $PSScriptRoot
-    $script:PROFILEGitDirectory = "$PSScriptRoot\..\"
+$script:sessionStart = (Get-Date -Format yyyy-MMM-dd-HH:mm:ss)
 
-if  (! $profile.MyProfileDirectory) {
+$script:PROFILEDirectory = $PSScriptRoot
+$script:PROFILEGitDirectory = "$PSScriptRoot\..\"
+
+if (! $profile.MyProfileDirectory) {
     $PROFILE | Add-Member -Name  MyProfileDirectory -MemberType NoteProperty -Value $script:PROFILEDirectory
     $PROFILE | Add-Member -Name  MyProfileGitDirectory -MemberType NoteProperty -Value $script:PROFILEGitDirectory
 }
@@ -41,19 +44,20 @@ if ($isWindows) {
     }
 }
 
-## Setting this to allow quick refresh of Bluetooth adapter due to an intermittent issue with mouse disconnecting
+## Setting this to allow quick refresh of Bluetooth adapter due to an intermittent issue with mouse disconnecting erratically - this is a workaround and sometimes fails to work - perhaps due to it being an older aging device whether driver/firmware related or due to overheating
 if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
-    $bluetoothAdapter =  Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
+    $bluetoothAdapter = Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
     function Reset-BluetoothAdapter {
         [CmdletBinding()]
         [Alias('rsba')]
         param()
-        $bluetoothAdapter | disable-PnpDevice -Confirm:$false -PassThru | Enable-PnpDevice -Confirm:$false
+        $bluetoothAdapter | Disable-PnpDevice -Confirm:$false -PassThru | Enable-PnpDevice -Confirm:$false
     }
 }
 
+# region hostui
 . $PSScriptRoot\hostui.ps1 -minprofile:$minprofile
-
+# endregion hostui
 if ($minprofile) {
     exit
 }
@@ -61,33 +65,35 @@ if ($minprofile) {
 #region default params
 . "$PSScriptRoot\vars\DefaultParams.ps1"
 #endregion
+# Please note the below with the PrivateData Section which is suggested for you to use for surfacing additional information about the module and the author/s
 $psd1 = @{
     Path                 = '' #Please Leave blank as it is automatically populated by the function; # TODO fit it in vscode setup
-    Author               = 'Ryan Yates';
-    CompanyName          = 'Re-Initialise';
-    Copyright            = "(C) $(Get-Date -Format yyyy) Re-Initialise";
+    Author               = 'Ryan Yates'
+    CompanyName          = 'Re-Initialise'
+    Copyright            = "(C) $(Get-Date -Format yyyy) Re-Initialise"
     RootModule           = '' # Please leave this blank as it is automatically populated by the function;
-    Description          = 'Initial Description for *ModuleName*';
+    Description          = 'Initial Description for *ModuleName*'
     ProjectUri           = [uri]"https://github.com/kilasuit/modules" # Suggested GitHub Location;
-    LicenseUri           = [uri]"https://github.com/kilasuit/modules/License' #Suggested *ModuleName";
-    ReleaseNotes         = 'Initial starting release of this module';
-    DefaultCommandPrefix = '';
+    LicenseUri           = [uri]"https://github.com/kilasuit/modules/License' #Suggested *ModuleName"
+    ReleaseNotes         = 'Initial starting release of this module'
+    DefaultCommandPrefix = ''
     ModuleVersion        = '0.0.1'
-    PrivateData          = @{   Name = 'Ryan Yates';
-                                Twitter = '@ryanyates1990';
-                                BlogUrl = [URI]'https://blog.kilasuit.org/';
-                                LinkedIn = [URI]'https://www.linkedin.com/in/ryanyates1990/';
-                                UkPowerShellUserGroup = [URI]'https://powershell.org.uk';
-                                BlueSky = [URI]'https://bsky.app/profile/blog.kilasuit.org/';
-                                GitHub = [URI]'https://github.com/kilasuit';
-                                Slack = 'pwshdoodUK'
-                                SlackCommunity = [URI]'https://powershell.slack.com/';
-                                Discord = 'pwshdoodUK'
-                                DiscordCommunity = [URI]'https://discord.gg/9VXQZxY';
-                            }
+    PrivateData          = @{
+        Name                  = 'Ryan Yates'
+        'Twitter/X'           = '@ryanyates1990'
+        BlogUrl               = [URI]'https://blog.kilasuit.org/'
+        LinkedIn              = [URI]'https://www.linkedin.com/in/ryanyates1990/'
+        UkPowerShellUserGroup = [URI]'https://powershell.org.uk'
+        BlueSky               = [URI]'https://bsky.app/profile/blog.kilasuit.org/'
+        GitHub                = [URI]'https://github.com/kilasuit'
+        Slack                 = 'pwshdoodUK'
+        SlackCommunity        = [URI]'https://aka.ms/PSSlack'
+        Discord               = 'pwshdoodUK'
+        DiscordCommunity      = [URI]'https://aka.ms/PSDiscord'
+        Twitch                = 'pwshdoodUK'
+    }
     FunctionsToExport    = '*'
 }
-#endregion default params
 #region ScriptAnalyser Specific Items
 $ScriptAnalyserRules = @{
     Severity     = 'Warning'
@@ -100,26 +106,20 @@ $ScriptAnalyserRules = @{
 }
 #endregion
 
+# This section would allow for Pester related settings and defaults - this is very old code
+# based on IRRC v3 back in 2016 and needs updating to v4/v5/v6 features in future
+## TODO: Update this to Pester v4/v5/v6
+#region Pester variables
+
 # $Default_Function_Pester_Tests = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\FunctionTests.txt"
 # $Default_Module_Pester_Tests = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\ModuleTests.txt"
 # $Standard_PSM1 = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\StandardPSM1.txt"
 # $License_MD_Content = Get-Content -Path "$(Split-Path -Path ((Get-Module ISE_Cew).Path) -Parent)\Sample_LICENSE.MD"
 # $License_MD_Content = $License_MD_Content.replace('Ryan Yates', $psd1.Author)
 
-# if ($PSVersionTable.PSEdition -match 'Desktop' -or $isWindows) {
-#     $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-#     if ($admin -eq $true) {
 
-#         # Admin-mark on prompt
-#         Write-Host "[" -NoNewline -ForegroundColor DarkGray
-#         Write-Host "Admin" -NoNewline -ForegroundColor Red
-#         Write-Host "] " -NoNewline -ForegroundColor DarkGray
-#         $Host.UI.RawUI.WindowTitle = "[Admin] " + $WindowTitle + ' - ' + $ # + ' - ' + $RunningAction
-#     }
-#     else {
-#         $host.UI.RawUI.WindowTitle = $WindowTitle + ' - ' + (Get-Date -Format HH:mm:ss) + ' - ' + $RunningAction
-#     }
-# }
 
 #endregion Create Variables
+# I do this to ensure that the minprofile varaible is not available if I then choose to
+# invoke the full profile
 Get-Variable minprofile -ErrorAction SilentlyContinue | Remove-Variable -Scope Global -Force -ErrorAction SilentlyContinue
