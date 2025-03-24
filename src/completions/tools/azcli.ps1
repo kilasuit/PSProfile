@@ -1,3 +1,4 @@
+# Description: Azure CLI completion for PowerShell from the Az Cli docs
 Register-ArgumentCompleter -Native -CommandName az -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
     $completion_file = New-TemporaryFile
