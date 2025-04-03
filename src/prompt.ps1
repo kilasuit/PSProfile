@@ -33,61 +33,61 @@ function Get-PSWingetStatus {
     }
 }
 
-function global:prompt {
-    $RunningJobs = (Get-Job -State Running).Count
-    $CompletedJobs = (Get-Job -State Completed).Count
+    function global:prompt {
+        $RunningJobs = (Get-Job -State Running).Count
+        $CompletedJobs = (Get-Job -State Completed).Count
 
-    if ((Get-History).Count -gt 1) {
-        $history = [PSCustomObject]@{
-            ID       = (Get-History)[-1].ID + 1
-            Duration = if ($minprofile) {
-                $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime)
-            }
-            else {
-                # This super long replace is only because in the PowerShell Humanizer Module (as well as in Humanizer .Net library) they don't yet shorten further
-                # I have some on going work that I am doing for this in Humanizer & may even fork it and publish it myself
-                # However in Pwsh we are likely to try and add this to PSStyle soon so this is a temporary measure.
-                $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime).Humanize(3).Replace('days', 'd').Replace('hours', 'h').Replace('hour', 'h').Replace('minutes', 'm').Replace('minute', 'm').Replace('milliseconds', 'ms').Replace('seconds', 's').Replace('second', 's')
+        if ((Get-History).Count -gt 1) {
+            $history = [PSCustomObject]@{
+                ID       = (Get-History)[-1].ID + 1
+                Duration = if ($minprofile) {
+                    $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime)
+                }
+                else {
+                    # This super long replace is only because in the PowerShell Humanizer Module (as well as in Humanizer .Net library) they don't yet shorten further
+                    # I have some on going work that I am doing for this in Humanizer & may even fork it and publish it myself
+                    # However in Pwsh we are likely to try and add this to PSStyle soon so this is a temporary measure.
+                    $((Get-History)[-1].EndExecutionTime - (Get-History)[-1].StartExecutionTime).Humanize(3).Replace('days', 'd').Replace('hours', 'h').Replace('hour', 'h').Replace('minutes', 'm').Replace('minute', 'm').Replace('milliseconds', 'ms').Replace('seconds', 's').Replace('second', 's')
+                }
             }
         }
-    }
-    else {
-        $history = [PSCustomObject]@{
-            ID       = 1
-            Duration = '0 ms'
+        else {
+            $history = [PSCustomObject]@{
+                ID       = 1
+                Duration = '0 ms'
+            }
+        }
+        #     # update my path section to simplify this & only show full path if not in a PSDrive
+        # if $pwd.path.Split([System.IO.Path]::DirectorySeparatorChar)
+
+        #     switch {
+        #     PRI = {}
+        # }
+        if ($Admin) {
+            Write-Host "[" -NoNewline -ForegroundColor DarkGray
+            Write-Host "Admin" -NoNewline -ForegroundColor Red
+            Write-Host "]" -NoNewline -ForegroundColor DarkGray
+        }
+        Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
+        Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
+        # Comeback to building a $promptConfig in future -  if ($promptConfig.ShowPath) { }
+        Write-Host "[$($History.duration)]" -NoNewline -ForegroundColor Gray
+
+        ### Add the following to the prompt if you want to show the number of jobs running and completed
+        if ($RunningJobs){Write-Host "[RunningJobs - $RunningJobs]" -NoNewline -ForegroundColor Yellow}
+        if ($CompletedJobs){Write-Host "[CompletedJobs - $CompletedJobs]" -NoNewline -ForegroundColor Green}
+
+    if ((Get-Process -Id $pid).Parent -notmatch 'Code') {
+        if (-not $noGit) {
+            if (Get-Module Posh-git) { Write-Host (Write-VcsStatus) -NoNewline } # This is added in this way to prevent adding the output on a newline
         }
     }
-    #     # update my path section to simplify this & only show full path if not in a PSDrive
-    # if $pwd.path.Split([System.IO.Path]::DirectorySeparatorChar)
-
-    #     switch {
-    #     PRI = {}
-    # }
-    if ($Admin) {
-        Write-Host "[" -NoNewline -ForegroundColor DarkGray
-        Write-Host "Admin" -NoNewline -ForegroundColor Red
-        Write-Host "]" -NoNewline -ForegroundColor DarkGray
+        # if ($countdown) {
+        #     Write-Countdown
+        # }
+        Write-Host ' '
+        "$($history.ID) > "
     }
-    Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
-    Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
-    # Comeback to building a $promptConfig in future -  if ($promptConfig.ShowPath) { }
-    Write-Host "[$($History.duration)]" -NoNewline -ForegroundColor Gray
-
-    ### Add the following to the prompt if you want to show the number of jobs running and completed
-    if ($RunningJobs){Write-Host "[RunningJobs - $RunningJobs]" -NoNewline -ForegroundColor Yellow}
-    if ($CompletedJobs){Write-Host "[CompletedJobs - $CompletedJobs]" -NoNewline -ForegroundColor Green}
-
-if ((Get-Process -Id $pid).Parent -notmatch 'Code') {
-    if (-not $noGit) {
-        if (Get-Module Posh-git) { Write-Host (Write-VcsStatus) -NoNewline } # This is added in this way to prevent adding the output on a newline
-    }
-}
-    # if ($countdown) {
-    #     Write-Countdown
-    # }
-    Write-Host ' '
-    "$($history.ID) > "
-}
 
 
 #region preprompt
