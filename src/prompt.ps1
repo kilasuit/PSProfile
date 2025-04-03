@@ -70,6 +70,7 @@ function global:prompt {
     }
     Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
     Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
+    # Comeback to building a $promptConfig in future -  if ($promptConfig.ShowPath) { }
     Write-Host "[$($History.duration)]" -NoNewline -ForegroundColor Gray
 
     ### Add the following to the prompt if you want to show the number of jobs running and completed
