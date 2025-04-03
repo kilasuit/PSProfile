@@ -34,6 +34,9 @@ function Get-PSWingetStatus {
 }
 
 function global:prompt {
+    $RunningJobs = (Get-Job -State Running).Count
+    $CompletedJobs = (Get-Job -State Completed).Count
+
     if ((Get-History).Count -gt 1) {
         $history = [PSCustomObject]@{
             ID       = (Get-History)[-1].ID + 1
@@ -68,6 +71,11 @@ function global:prompt {
     Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
     Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
     Write-Host "[$($History.duration)]" -NoNewline -ForegroundColor Gray
+
+    ### Add the following to the prompt if you want to show the number of jobs running and completed
+    if ($RunningJobs){Write-Host "[RunningJobs - $RunningJobs]" -NoNewline -ForegroundColor Yellow}
+    if ($CompletedJobs){Write-Host "[CompletedJobs - $CompletedJobs]" -NoNewline -ForegroundColor Green}
+
 if ((Get-Process -Id $pid).Parent -notmatch 'Code') {
     if (-not $noGit) {
         if (Get-Module Posh-git) { Write-Host (Write-VcsStatus) -NoNewline } # This is added in this way to prevent adding the output on a newline
