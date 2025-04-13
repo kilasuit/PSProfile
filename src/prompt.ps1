@@ -37,7 +37,10 @@ function Get-PSWingetStatus {
         $RunningJobs = (Get-Job -State Running).Count
         $CompletedJobs = (Get-Job -State Completed).Count
         $FailedJobs = (Get-Job -State Failed).Count
-        $otherJobs = (Get-Job| where State -NotMatch 'Completed|Failed|Running').Count
+        # Comeback to as this is not working as expected
+        # $otherJobs = (Get-Job | where State -Match "NotStarted|Stopped|Blocked|Suspended|Disconnected|Suspending|Stopping|AtBreakpoint" ).Count
+
+        # See issue 17 for more info on this below line not working as expected however is fixed with the elseif statement below
         if ((Get-History).Count -gt 1) {
             $history = [PSCustomObject]@{
                 ID       = (Get-History)[-1].ID + 1
@@ -52,10 +55,16 @@ function Get-PSWingetStatus {
                 }
             }
         }
-        else {
+        elseif ($minprofile) {
             $history = [PSCustomObject]@{
                 ID       = 1
                 Duration = '0 ms'
+            }
+        }
+        else {
+            $history = [PSCustomObject]@{
+                ID       = 1
+                Duration = '0 s'
             }
         }
         #     # update my path section to simplify this & only show full path if not in a PSDrive
@@ -78,7 +87,7 @@ function Get-PSWingetStatus {
         if ($RunningJobs){Write-Host "[RunningJobs - $RunningJobs]" -NoNewline -ForegroundColor Yellow}
         if ($CompletedJobs){Write-Host "[CompletedJobs - $CompletedJobs]" -NoNewline -ForegroundColor Green}
         if ($FailedJobs){Write-Host "[FailedJobs - $FailedJobs]" -NoNewline -ForegroundColor Red}
-        if ($otherJobs.Count -gt 0) {
+        if ($otherJobs.Count -ge 1) {
             Write-Host "[OtherJobs - $otherJobs]" -NoNewline -ForegroundColor Gray
         }
     if ((Get-Process -Id $pid).Parent -notmatch 'Code') {
