@@ -1,4 +1,4 @@
-name: New ADR Doc or Update needed
+name: 📖 New ADR Doc or Update needed
 description: Tracking when we need a new ADR doc or update an existing one
 title: "📖 ADR Docs need adding or updated: "
 labels: ["Config-or-Docs-OutDated"]
