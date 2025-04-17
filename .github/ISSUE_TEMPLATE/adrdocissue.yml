@@ -29,7 +29,7 @@ body:
     label: Summary
     description: File path/s for outdated ADR Docs
     placeholder: |
-      Config file at <path> and Doc file at <path> is outdated
+      Doc file at <path> is outdated
   validations:
     required: false
     # if: adr-docs, "Existing", "Both" // if the user selects "Existing" or "Both", this field is required buut this syntax is not supported in the current version of GitHub issues template from what I could tell.
@@ -39,7 +39,6 @@ body:
     label: Suggested Updates
     description: What needs updating in these files.
     placeholder: |
-      [] - Config File needs additional properties
       [] - Doc is missing key references & links need updating to new locations
   validations:
     required: true
@@ -50,3 +49,13 @@ body:
       Any other comments
   validations:
     required: false
+- type: dropdown
+  attributes:
+    label: Intend to contribute this work?
+    description: Intend to contribute this work?
+    options:
+    - "Yes, I intend to contribute this work & do not require any assistance"
+    - "Yes, I intend to contribute this work & but would like some assistance"
+    - "No, I do not intend to contribute this work"
+  validations:
+    required: true
