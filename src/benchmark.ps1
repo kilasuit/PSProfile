@@ -9,7 +9,9 @@
 ##   Removed some icons as they aren't supported in the console host
 ##   Added a Switch-ProfileBenchMark function to enable/disable the benchmark
 ##   Added setting the environment variable to the process and user scope
-##   Use True and False instead of true or empty string
+##   Use True and False instead of true or empty string in the env var
+
+## Some bits still needed for v5 support
 
 param(
     $profilePath
