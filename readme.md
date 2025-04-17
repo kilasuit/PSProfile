@@ -39,6 +39,8 @@ This repositories documentation is in the Docs folder and contains the following
 
 [ArchitectureDecisionRecords](/docs/ArchitectureDecisionRecords.md)
 
+[Current ADRs](/docs/ArchitectureDecisionRecords/)
+
 [Changelog](/docs/Changelog.md)
 
 [CommunityNotes](/docs/CommunityNotes.md)
@@ -46,6 +48,8 @@ This repositories documentation is in the Docs folder and contains the following
 [Contributing](/docs/Contributing.md)
 
 [InspiredBy](/docs/InspiredBy.md)
+
+[IINs](/docs/IINs/IINsReadme.md)
 
 [MeetingNotes](/docs/MeetingNotes.md)
 
