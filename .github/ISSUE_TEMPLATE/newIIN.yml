@@ -1,4 +1,4 @@
-name: New IIN
+name: New IIN Submission
 description: This issue is for tracking when someone has either added or intends to add an IIN (Please See https://github.com/kilasuit/InitialInteractionNotes for more on what IIN's are & https://github.com/kilasuit/IINs for a sample of IINs) 
 title: "📖 New IINs Doc : "
 # labels: ["Config-or-Docs-OutDated"] Update this in later PR when we have a label for this issue type
