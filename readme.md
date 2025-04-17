@@ -37,17 +37,17 @@ For more info please read the MinProfile docs & ADR's
 
 This repositories documentation is in the Docs folder and contains the following core docs which detail any additional documents as needed
 
-[ArchitectureDecisionRecords](.\docs\ArchitectureDecisionRecords.md)
+[ArchitectureDecisionRecords](/docs/ArchitectureDecisionRecords.md)
 
-[Changelog](.\docs\Changelog.md)
+[Changelog](/docs/Changelog.md)
 
-[CommunityNotes](.\docs\CommunityNotes.md)
+[CommunityNotes](/docs/CommunityNotes.md)
 
-[Contributing](.\docs\Contributing.md)
+[Contributing](/docs/Contributing.md)
 
-[InspiredBy](.\docs\InspiredBy.md)
+[InspiredBy](/docs/InspiredBy.md)
 
-[MeetingNotes](.\docs\MeetingNotes.md)
+[MeetingNotes](/docs/MeetingNotes.md)
 
 
 
