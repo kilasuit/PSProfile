@@ -86,6 +86,10 @@ It will include a number of sample `.vscode` & `.github` docs as well as a numbe
   - We may use wiki's however docs files in the repo seems useful enough for now.
   - We will use GH CLI where possible instead of the Github UI to speed things up
 
+Commit flow
+- Intend in using branching and PR's but initially will be a push direct to main branch 
+- PRs should use rebase merges 
+
 - Azure DevOps
   - We may use of Azure Repos for a secondary host and either a private version of this repo.
   - We may use Azure Pipelines for build and release
