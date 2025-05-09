@@ -1,4 +1,6 @@
 {
+
+// Some of these come from the PowerShell/PowerShell repository.  
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.wordWrap": "on",
@@ -17,6 +19,7 @@
         "files.trimTrailingWhitespace": true
       },
       "cSpell.words": [
-        "minprofile"
+        "minprofile",
+        "winget"
       ]
 }
