@@ -115,9 +115,12 @@ function Write-Countdown {
             if (Get-Module Posh-git) { Write-Host (Write-VcsStatus) -NoNewline } # This is added in this way to prevent adding the output on a newline
         }
     }
-        # if ($countdown) {
-        #     Write-Countdown
-        # }
+        if ($countdown.count -ge 1) {
+            $countdown = $countdown | Foreach {
+                Write-Host ' '
+                Write-Countdown -EventName $countdown.EventName -EventStartTime $countdown.EventStartTime -EventEndTime $countdown.EventEndTime
+            }
+        }
         Write-Host ' '
         "$($history.ID) > "
     }
