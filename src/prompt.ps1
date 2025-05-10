@@ -19,8 +19,8 @@ function Get-PSWingetStatus {
         If ($UseReleasesPageInfo) {
             $releaseApi = Invoke-RestMethod https://api.github.com/repos/PowerShell/PowerShell/releases -Verbose:$false
             $Preview = $releaseApi | Where-Object prerelease -Match 'true' | Select-Object -First 1 -Property tag_name, assets_url, prerelease
-            $stable = $releaseApi | Where-Object prerelease -Match 'false' | Where-Object tag_name -Match '7.4' | Select-Object -First 1
-            $lts = $releaseApi | Where-Object prerelease -Match 'false' | Where-Object tag_name -Match '7.2' | Select-Object -First 1
+            $stable = $releaseApi | Where-Object prerelease -Match 'false' | Where-Object tag_name -Match '7.5' | Select-Object -First 1
+            $lts = $releaseApi | Where-Object prerelease -Match 'false' | Where-Object tag_name -Match '7.4' | Select-Object -First 1
             $bothLts = $stable, $lts
             $bothLts.ForEach{ $_ | Select-Object -Property tag_name, assets -ExpandProperty assets }
         }
