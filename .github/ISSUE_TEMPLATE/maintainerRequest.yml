@@ -38,7 +38,7 @@ body:
       - "Yes"
       - "No"
       - "Maybe"
-- type: checkboxes  
+- type: dropdown  
   id: type
   attributes:
     label: maintainer type
