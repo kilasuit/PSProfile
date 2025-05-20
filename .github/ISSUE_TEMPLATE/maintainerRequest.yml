@@ -24,7 +24,7 @@ body:
       - "Yes"
       - "No"
 - type: dropdown  
-  id: accesslevel
+  id: access
   validations:
     required: true
   attributes:
