@@ -98,6 +98,7 @@ function Write-Countdown {
             Write-Host "Admin" -NoNewline -ForegroundColor Red
             Write-Host "]" -NoNewline -ForegroundColor DarkGray
         }
+        Write-Host "[$(Get-Date -Format "yy-MM-dd")]" -ForegroundColor Green -NoNewline
         Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
         Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
         # Comeback to building a $promptConfig in future -  if ($promptConfig.ShowPath) { }
