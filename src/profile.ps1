@@ -57,27 +57,27 @@ if ($host.Name -match 'Visual Studio Code Host') { . $PSScriptroot\code_profile.
 # }
 #
 
-# region psreadline
+#region psreadline
 . $PSScriptRoot\PSReadLineConfig.ps1
-# endregion psreadline
+#endregion psreadline
 
-# region windows
+#region windows
 if ($isWindows) {
     . $PSScriptRoot\windows.ps1
 }
-# endregion windows
+#endregion windows
 
-# region linux
+#region linux
 if ($IsLinux) {
     . $PSScriptRoot\linux.ps1
 }
-# endregion linux
+#endregion linux
 
-# region macos
+#region macos
 if ($IsMacOS) {
     . $PSScriptRoot\macos.ps1
 }
-# endregion macos
+#endregion macos
 
 # SIG # Begin signature block
 # MIIFuQYJKoZIhvcNAQcCoIIFqjCCBaYCAQExDzANBglghkgBZQMEAgEFADB5Bgor

@@ -55,9 +55,9 @@ if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
     }
 }
 
-# region hostui
+#region hostui
 . $PSScriptRoot\hostui.ps1 -minprofile:$minprofile
-# endregion hostui
+#endregion hostui
 if ($minprofile) {
     exit
 }
@@ -83,9 +83,9 @@ $psd1 = @{
         'Twitter/X'           = '@ryanyates1990'
         BlogUrl               = [URI]'https://blog.kilasuit.org/'
         LinkedIn              = [URI]'https://www.linkedin.com/in/ryanyates1990/'
-        UkPowerShellUserGroup = [URI]'https://powershell.org.uk'
-        UKPSUGProfile         = [URI]'https://powershell.org.uk/members/kilasuit'
-        PowerShellGallery      = [URI]'https://www.powershellgallery.com/profiles/kilasuit'
+        PowerShellOrgUK       = [URI]'https://powershell.org.uk'
+        PowerShellOrgUKProfile= [URI]'https://powershell.org.uk/members/kilasuit'
+        PowerShellGallery     = [URI]'https://www.powershellgallery.com/profiles/kilasuit'
         BlueSky               = [URI]'https://bsky.app/profile/blog.kilasuit.org/'
         GitHub                = [URI]'https://github.com/kilasuit'
         Slack                 = 'pwshdoodUK'
