@@ -4,7 +4,7 @@
 
 #region Create Variables
 if (! $minprofile) {
-. $PSScriptroot\variables.ps1
+. $PSScriptRoot\variables.ps1
 }
 #endregion Create Variables
 #region Create PSDrives
@@ -15,7 +15,7 @@ if (-not $PSDrives) {
 
 #region modules
 ## Todo move to script
-Import-Module PriGH:\kilasuit\Modules-WIP\MyFunctions\MyFunctions.psd1 -DisableNameChecking
+Import-Module ModulesWIP:\MyFunctions\MyFunctions.psd1 -DisableNameChecking
 
 Import-Module PowerShellHumanizer
 If ($isWindows) { Import-Module BetterCredentials -Prefix b }
@@ -23,7 +23,7 @@ If ($isWindows) { Import-Module BetterCredentials -Prefix b }
 # (Get-Module Posh-git -ListAvailable | Where-Object { $_.Version.Major -lt 1 }) | Import-Module
 # If (Get-Module posh-git) { $GitPromptSettings.EnableWindowTitle = $null}
 # Remove-Module posh-git
-Import-Module C:\PSModules\posh-git\1.1.0\posh-git.psd1
+Import-Module PSModules:\posh-git\1.1.0\posh-git.psd1
 
 Import-Module ClassExplorer
 
