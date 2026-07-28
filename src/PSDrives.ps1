@@ -2,19 +2,29 @@ if ($isWindows) {
     #New-PSDrive -Name Desktop -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Desktop | Out-Null
     New-PSDrive -Name OneDrive -PSProvider FileSystem -Root $env:HOMEDRIVE$env:HOMEPATH\Onedrive\ | Out-Null
     New-PSDrive -Name OneDriveRK -PSProvider FileSystem -Root "$env:HOMEDRIVE$env:HOMEPATH\OneDrive - Kilasuit.org\" -ErrorAction SilentlyContinue | Out-Null
-    New-PSDrive -Name Code -PSProvider FileSystem -Root C:\code\ | Out-Null
-    New-PSDrive C-Tmp -PSProvider FileSystem -Root C:\Tmp\ | Out-Null
-    New-PSDrive C-Temp -PSProvider FileSystem -Root c:\Temp\ | Out-Null
+    if (test-Path C:\code\) {
+        New-PSDrive -Name Code -PSProvider FileSystem -Root C:\code\ | Out-Null
+    } else {
+        $skipCodeDrives = $true
+    }
+    New-PSDrive -Name C-Tmp -PSProvider FileSystem -Root C:\Tmp\ | Out-Null
+
+    if($env:computername -eq 'Intel-Nuc') {
+        New-PSDrive -Name PSModules -PSProvider FileSystem -Root 'C:\lpack\PSModules\' | Out-Null
+    }
+    else {
+        New-PSDrive -Name PSModules -PSProvider FileSystem -Root 'C:\PSModules\' | Out-Null
+    }
     $null = New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
     $null = New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS
 }
 if ($IsLinux) {
-    New-PSDrive Code -PSProvider FileSystem -Root '/mnt/c/Code/' | Out-Null
-    New-PSDrive C-Tmp -PSProvider FileSystem -Root '/mnt/c/Tmp/' | Out-Null
-    New-PSDrive C-Temp -PSProvider FileSystem -Root '/mnt/c/Temp/' | Out-Null
+    New-PSDrive -Name Code -PSProvider FileSystem -Root '/mnt/c/Code/' | Out-Null
+    New-PSDrive -Name C-Tmp -PSProvider FileSystem -Root '/mnt/c/Tmp/' | Out-Null
+    New-PSDrive -Name C-Temp -PSProvider FileSystem -Root '/mnt/c/Temp/' | Out-Null
     $Env:PSModulePath = $Env:PSModulePath + ':/mnt/c/Program Files/WindowsPowerShell/Modules/'
 }
-
+if (-not $skipCodeDrives) {
 New-PSDrive -Name Private -PSProvider FileSystem -Root 'Code:\Mine\pri\' | Out-Null
 New-PSDrive -Name Public -PSProvider FileSystem -Root 'Code:\Mine\pub\' | Out-Null
 
@@ -34,9 +44,6 @@ New-PSDrive -Name DSC-Org -PSProvider FileSystem -Root 'PubGH:\DSCCommunity' | O
 New-PSDrive -Name PS-GH -PSProvider FileSystem -Root 'PubGH:\PowerShell' | Out-Null
 #New-PSDrive -Name PS-Modules -PSProvider FileSystem -Root 'PubGH:\PowerShellModules' | Out-Null
 
-
-#New-PSDrive -Name PSOrgDev -PSProvider FileSystem -Root 'PubGH:\PowerShellOrgDev' | Out-Null
-
 #New-PSDrive -Name Modules -PSProvider FileSystem -Root 'PriGH:\kilasuit\Modules' | Out-Null
 
 
@@ -51,6 +58,7 @@ New-PSDrive -Name Mhasl -PSProvider FileSystem -Root 'PriGH:\mhaslme\website' | 
 #New-PSDrive -Name PubMhasl -PSProvider FileSystem -Root 'PubGH:\mhaslme\website' | Out-Null
 
 New-PSDrive -Name Profile -PSProvider FileSystem -Root 'PriGH:\kilasuit\PSProfile' | Out-Null
-
+$CodePSDrives = Get-PSDrive -Name Code,Private,Public,PriGH,PubGH,PubDocRepos,Scripts,ModulesWIP,ScriptsWIP
+}
 
 $PSDrives = $true
