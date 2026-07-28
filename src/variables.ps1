@@ -51,15 +51,16 @@ if (-Not $IsElevated -or (Get-Command Test-Elevated -ErrorAction SilentlyContinu
     $admin = $IsElevated
 }
 ## Setting this to allow quick refresh of Bluetooth adapter due to an intermittent issue with mouse disconnecting erratically - this is a workaround and sometimes fails to work - perhaps due to it being an older aging device whether driver/firmware related or due to overheating
-if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
-    $bluetoothAdapter = Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
-    function Reset-BluetoothAdapter {
-        [CmdletBinding()]
-        [Alias('rsba')]
-        param()
-        $bluetoothAdapter | Disable-PnpDevice -Confirm:$false -PassThru | Enable-PnpDevice -Confirm:$false
-    }
-}
+## Commenting out as I have changed connection from Bluetooth to Dongle for the mouse
+# if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
+#     $bluetoothAdapter = Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
+#     function Reset-BluetoothAdapter {
+#         [CmdletBinding()]
+#         [Alias('rsba')]
+#         param()
+#         $bluetoothAdapter | Disable-PnpDevice -Confirm:$false -PassThru | Enable-PnpDevice -Confirm:$false
+#     }
+# }
 
 #region hostui
 . $PSScriptRoot\hostui.ps1 -minprofile:$minprofile
