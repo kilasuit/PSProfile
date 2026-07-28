@@ -5,7 +5,8 @@ Remove-PSReadLineKeyHandler Ctrl+Enter
 
 if ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -gt 2) {
     Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-    if ((Get-Process -Id $Pid).Parent -notmatch 'Code') {
+    # Added due to windowsTerminal host split panels
+    if (((Get-Process -Id $Pid).Parent -notmatch 'Code') -and $host.UI.RawUI.WindowSize.Height -gt 5 -and $host.UI.RawUI.WindowSize.Width -gt 50) {
         Set-PSReadLineOption -PredictionViewStyle ListView
     }
 }
