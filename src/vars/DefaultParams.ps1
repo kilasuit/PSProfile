@@ -12,3 +12,4 @@ $PSDefaultParameterValues['*-WinGetPackage:Source'] = 'winget'
 $PSDefaultParameterValues['*-PSSession:ConfigurationName'] ='PowerShell.7-preview'
 $PSDefaultParameterValues['Invoke-Command:ConfigurationName'] ='PowerShell.7-preview'
 
+$PSDefaultParameterValues['Import-Module:DisableNameChecking'] = $true
