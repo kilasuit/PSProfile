@@ -31,6 +31,13 @@ if ($PSVersionTable.PSVersion.Major -lt 6) {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', 'Not Available in v6 or lower unless PowerShellGet is imported', Scope = 'Scriptblock')]
     $isWindows = $true
 }
+
+    if ($PSVersionTable.PSVersion.Major -eq 5) {
+        New-Variable -Name PSProcessPath -Value (get-Process -Id $PID).Path -Option Constant,ReadOnly,AllScope -Force
+    } elseif ($PSVersionTable.PSVersion.Major -eq 7 -and $PSVersionTable.PSVersion.Minor -ge 6) {
+        New-Variable -Name PSProcessPath -Value ([System.Diagnostics.Process]::GetCurrentProcess().Path) -Option Constant,ReadOnly,AllScope -Force
+    }
+
 if (-Not $IsElevated -or (Get-Command Test-Elevated -ErrorAction SilentlyContinue)) {
     if ($isWindows) {
         $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
