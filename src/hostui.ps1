@@ -23,4 +23,3 @@ if ($minprofile -eq $true) { $windowTitle = 'MP '+ $windowTitle }
 $windowTitle = $windowTitle + ' - ' + $pid + ' - ' + $sessionStart
 if ($admin) {$windowTitle = "[Admin] " + $WindowTitle}
 Set-WindowTitle -WindowTitle $windowTitle
-
