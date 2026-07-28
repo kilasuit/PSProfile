@@ -65,8 +65,14 @@ if (-Not $IsElevated -or (Get-Command Test-Elevated -ErrorAction SilentlyContinu
 #region hostui
 . $PSScriptRoot\hostui.ps1 -minprofile:$minprofile
 #endregion hostui
-if ($minprofile) {
-    exit
+# Set $RWD to the current working directory when the location changes so can call `code $rwd` to open a PSDrive Path like `Blog:\` in VSCode & other tooling that doesn't understand PSDrive paths. This is a workaround for the fact that `$PWD` is not updated when the location changes in a PSDrive & whilst this could be added as part of a Automatic Variable, it isn't easy to get New Automatic Variables added to the PowerShell repo.
+# This may not be needed from depending on which version of PowerShell you are using & what executable you are calling.
+$ExecutionContext.InvokeCommand.LocationChangedAction = {
+    try {
+        $global:RWD = (Get-Item -LiteralPath $PWD.ProviderPath).FullName
+    } catch {
+        $global:RWD = $null
+    }
 }
 
 #region default params
