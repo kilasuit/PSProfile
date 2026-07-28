@@ -26,11 +26,7 @@ function Set-WindowTitle {
     $host.UI.RawUI.WindowTitle = $WindowTitle
 }
 
-#Set-WindowTitle -WindowTitle $windowTitle
-if ($PSVersionTable.PSVersion.Major -lt 6) {
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', 'Not Available in v6 or lower unless PowerShellGet is imported', Scope = 'Scriptblock')]
-    $isWindows = $true
-}
+
 
     if ($PSVersionTable.PSVersion.Major -eq 5) {
         New-Variable -Name PSProcessPath -Value (get-Process -Id $PID).Path -Option Constant,ReadOnly,AllScope -Force
