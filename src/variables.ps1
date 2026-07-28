@@ -75,6 +75,9 @@ $ExecutionContext.InvokeCommand.LocationChangedAction = {
     }
 }
 
+
+. "$PSScriptRoot\vars\PSStyle.ps1"
+
 #region default params
 . "$PSScriptRoot\vars\DefaultParams.ps1"
 #endregion
