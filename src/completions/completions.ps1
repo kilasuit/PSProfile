@@ -5,6 +5,7 @@ Import-Module CompletionPredictor
 # as such I have added a check to see if the system is connected to the internet
 # and if not, it will not import the module
 # This is a bit of a hack but it works for now & I need to report this to Winget team as per Issue#19
+<#
 if ((Get-NetConnectionProfile).IPv4Connectivity -NotMatch 'LocalNetwork') {
     Import-Module Microsoft.WinGet.CommandNotFound
 }
@@ -12,3 +13,8 @@ if ((Get-NetConnectionProfile).IPv4Connectivity -NotMatch 'LocalNetwork') {
 #foreach ($file in Get-ChildItem -Path $($Profile.MyProfileDirectory)\src\completions\*\*.ps1 ) {
 #     . $file.FullName
 # }
+#>
+
+## Removed the above as to reduce the time my profile takes to import.
+
+Import-Module Microsoft.WinGet.CommandNotFound
