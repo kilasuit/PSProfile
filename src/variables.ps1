@@ -31,19 +31,22 @@ if ($PSVersionTable.PSVersion.Major -lt 6) {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', 'Not Available in v6 or lower unless PowerShellGet is imported', Scope = 'Scriptblock')]
     $isWindows = $true
 }
-
-if ($isWindows) {
-    $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-} else {
-    # Check if running as root on Linux
-    # Thanks to jborean93 for the Linux check
-    # https://discord.com/channels/180528040881815552/447476117629304853/1316552171348688926
-    $uid = id -u
-    if ($uid -eq 0) {
-        $admin = $true
+if (-Not $IsElevated -or (Get-Command Test-Elevated -ErrorAction SilentlyContinue)) {
+    if ($isWindows) {
+        $admin = ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+    } else {
+        # Check if running as root on Linux
+        # Thanks to jborean93 for the Linux check
+        # https://discord.com/channels/180528040881815552/447476117629304853/1316552171348688926
+        $uid = id -u
+        if ($uid -eq 0) {
+            $admin = $true
+        }
     }
+    $IsElevated = $admin
+} else {
+    $admin = $IsElevated
 }
-
 ## Setting this to allow quick refresh of Bluetooth adapter due to an intermittent issue with mouse disconnecting erratically - this is a workaround and sometimes fails to work - perhaps due to it being an older aging device whether driver/firmware related or due to overheating
 if ($env:COMPUTERNAME -eq 'INTEL-NUC' -and $admin) {
     $bluetoothAdapter = Get-PnpDevice -Class Bluetooth -FriendlyName *Intel*
