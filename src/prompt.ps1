@@ -98,7 +98,16 @@ function Write-Countdown {
             Write-Host "Admin" -NoNewline -ForegroundColor Red
             Write-Host "]" -NoNewline -ForegroundColor DarkGray
         }
-        Write-Host "[$(Get-Date -Format "yy/MM/dd")]" -ForegroundColor Green -NoNewline
+        Write-Host "[$(Get-Date -Format "ddd")]" -ForegroundColor Magenta -NoNewline
+        # 28 July 2026 - Added this cos why not - I like to see the day of the week hence making changes as detailed below for the taskbar showing the day as well.
+
+        Write-Host "[$(Get-Date -Format "yy-MM-dd")]" -ForegroundColor Green -NoNewline <#
+        28th July 2026 -
+        This broke on L-T14 after having changed Short Date format via the Date & Time Control Panel & via Settings menu. It should output with the /  however no longer does & I CBA to diagnose why this is. FWIW, the setting I was changing was so that on my taskbar I get the the following
+            Tue 28/07/2026
+
+            Write-Host "[$(Get-Date -Format "yy/MM/dd")]" -ForegroundColor Green -NoNewline
+        #>
         Write-Host "[$(Get-Date -Format "HH:mm:ss")]" -ForegroundColor Yellow -NoNewline
         Write-Host "[$($pwd.path)]" -NoNewline -ForegroundColor Blue
         # Comeback to building a $promptConfig in future -  if ($promptConfig.ShowPath) { }
