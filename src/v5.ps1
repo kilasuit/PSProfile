@@ -6,6 +6,13 @@ if ($PSVersionTable.PSVersion.Major -match 5) {
         return ($line -notmatch $sensitive)
     }
 
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('AvoidAssignmentToAutomaticVariable', '',
+        Justification='Just an example')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('UseDeclaredVarsMoreThanAssignments', '',
+        Justification='Just an example')]
+# The above needed for Suppressing the warning for the $IsWindows variable.
+$IsWindows = $true
+
     Write-Host 'Why you in PowerShell 5 - go into 7'
     # Disabled as no longer being published
     # If (-not ((Get-ScheduledJob).Name -contains 'PwshDaily') -and ($admin -eq $true)) {
