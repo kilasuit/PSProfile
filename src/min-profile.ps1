@@ -15,11 +15,16 @@ function invoke-minprofile {
     [Alias('imp')]
     param()
     . "$script:PROFILEDirectory\min-profile.ps1"
+    $minprofile = $true
 }
 
 function invoke-profile {
     [CmdletBinding()]
     [Alias('imyp')]
     param()
-    . "$script:PROFILEDirectory\profile.ps1"
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    . $Profile.CurrentUserAllHosts
+    Remove-Variable minprofile -Force
+    $sw.Stop()
+    Write-Output "Profile Load Time: $($sw.Elapsed.TotalSeconds) seconds"
 }
