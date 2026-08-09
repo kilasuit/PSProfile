@@ -13,6 +13,7 @@ else { $ver = $PSVersionTable.PSVersion.Major, $PSVersionTable.PSVersion.Minor -
 
 if ((Get-Process -Id $PID).Path -match '\\WindowsApps\\Microsoft') { $ver = $ver + ' MSIX' }
 elseif ((Get-Process -Id $PID).Path -match '\\PowerShell\\7') { $ver = $ver + ' MSI' }
+elseif ((Get-Process -Id $PID).Path -match 'dotnet') { $ver = $ver + ' dngt' } # Dotnet Global Tool
 elseif ($PSEdition -eq 'Desktop') { $ver = $ver }
 else {$ver = $ver + ' ZIP'}
 
